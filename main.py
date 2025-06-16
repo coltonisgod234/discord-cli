@@ -8,7 +8,7 @@ import argparse
 parser = argparse.ArgumentParser("dterm")
 parser.add_argument("command")
 parser.add_argument("--text")
-parser.add_argument("--private", action="store_true")
+parser.add_argument("--private", "-pr", action="store_true")
 
 # By name
 parser.add_argument("-cn")
@@ -33,7 +33,9 @@ async def command_texts(args, discord):
         print(m)
 
 async def command_channels(args, discord):
-    channels = await nav.get_channels(discord, json=args.json)
+    if args.private: channels = await nav.get_dms(discord, json=args.json)
+    else: channels = await nav.get_channels(discord, json=args.json)
+
     for channel in channels:
         print(channel)
 

@@ -108,6 +108,34 @@ GET_CH_JS = """
 	return channels;
 }
 """
+GET_DMS_JS = """
+() =>
+{
+	const scroller = document.querySelector('.content__99f8c');
+	scroller.scrollTo(0, scroller.scrollHeight);
+	const channels = [];
+	document.querySelectorAll('a[href^=\"/channels/@me/\"]').forEach(el =>
+	{
+		const id = el.getAttribute('href').split('/channels/@me/')[1];
+		const nameEl = el.querySelector('.name__20a53');
+		const name = nameEl ? nameEl.textContent.trim() : 'unknown';
+		console.log(id, nameEl, name)
+		const type = el.getAttribute('aria-label').includes('(direct message)') ? "dm" :
+			el.getAttribute('aria-label').includes('(group message)') ? "gc" :
+			"unknown";
+		console.log(id, type)
+
+		channels.push(
+		{
+			id,
+			name,
+			type
+		});
+	});
+	return channels;
+}
+"""
+
 async def get_channels(discord, json=False):
     channels = await discord.evaluate(GET_CH_JS)
     if json:
@@ -117,6 +145,19 @@ async def get_channels(discord, json=False):
     print("[nav] Parsing channels...")
     parsed_channels = []
     for ch in channels:
+        parsed_channel = Channel(ch["id"], ch["name"], ch["type"])
+        parsed_channels.append(parsed_channel)
+
+    return parsed_channels
+
+async def get_dms(discord, json=False):
+    dms = await discord.evaluate(GET_DMS_JS)
+    if json:
+        return dms
+    
+    print("[nav] Parsing DMs...")
+    parsed_channels = []
+    for ch in dms:
         parsed_channel = Channel(ch["id"], ch["name"], ch["type"])
         parsed_channels.append(parsed_channel)
 
