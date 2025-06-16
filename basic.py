@@ -1,3 +1,14 @@
+async def click_button_js(selector, discord):
+    '''
+    Use this if discord.click is being a little bitch
+    '''
+    print(f"selector {selector}")
+    await discord.evaluate(f'''() => {{
+    const btn = document.querySelector(\"{selector}\");
+    if (btn) {{ btn.click(); }}
+    }}''')
+
+
 async def click_data_list_item_by_id(item, id, discord):
     await discord.click(f"[data-list-item-id=\"{item}___{id}\"]")
 
