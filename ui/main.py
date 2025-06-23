@@ -17,7 +17,7 @@ async def loop():
     #print("".join(framebuffer))
     await asyncio.sleep(0.1)
     print("\x1b[H")  # clear screen and move cursor home
-    print("\x1b[2J")
+    #print("\x1b[2J")
 
 async def main():
     await cli.main.switch(Namespace(
