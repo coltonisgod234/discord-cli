@@ -2,7 +2,6 @@ async def click_button_js(selector, discord):
     '''
     Use this if discord.click is being a little bitch
     '''
-    print(f"selector {selector}")
     await discord.evaluate(f'''() => {{
     const btn = document.querySelector(\"{selector}\");
     if (btn) {{ btn.click(); }}
@@ -39,10 +38,8 @@ async def find_last_inner_html(selector, discord, index=-1):
             selector,
             '(nodes) => nodes.map(n => n.textContent)'
         )
-        print(f"evals for {selector} index={index} are: {evals}")
         html = evals[index]
     except Exception as e:
-        print(f"evals for {selector} index={index} are: None (exception {e})")
         return None  # indication to stop (there are no more messages)
 
     return html
@@ -52,7 +49,6 @@ async def is_message_reply(discord):
 
     reply_container = await discord.querySelector("[aria-label*='replying to']")
     result = await find_last_inner_html(".username_c19a55", reply_container, 0)
-    #print(f"is_reply: {result}")
     return result
 
 async def get_message_reply_text(discord):
@@ -60,5 +56,4 @@ async def get_message_reply_text(discord):
 
     reply_container = await discord.querySelector(".repliedTextPreview_c19a55")
     result = await find_last_inner_html(".repliedTextContent_c19a55", reply_container, 0)
-    #print(f"is_reply: {result}")
     return result

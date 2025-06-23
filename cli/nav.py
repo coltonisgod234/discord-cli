@@ -1,4 +1,4 @@
-import basic
+from . import basic
 import asyncio
 from dataclasses import dataclass
 @dataclass
@@ -21,17 +21,21 @@ class Server:
 GUILD_ANIMATION_TIME = 0.2
 
 async def go_to_guild_by_name(name, discord):
-    await discord.click(f".blobContainer_e5445c[data-dnd-name=\"{name}\"]")
+    try:
+        await discord.click(f".blobContainer_e5445c[data-dnd-name=\"{name}\"]")
+    except Exception as e:
+        print(f"[ Exception while clicking on guild ({e}). Does the guild exist?")
+        quit(1)
     print(f"[nav] Navigated to guild \"{name}\", waiting {GUILD_ANIMATION_TIME}sec for animation... ")
     await asyncio.sleep(GUILD_ANIMATION_TIME)
 
 async def go_to_guild(id, discord):
-    await basic.click_data_list_item_by_id("guildsnav", id, discord)
-    print(f"[nav] Navigated to guild \"{id}\", waiting {GUILD_ANIMATION_TIME}sec for animation... ")
-    await asyncio.sleep(GUILD_ANIMATION_TIME)
+    try:
+        await basic.click_data_list_item_by_id("guildsnav", id, discord)
+    except Exception as e:
+        print(f"[ Exception while clicking on guild ({e}). Does the guild exist?")
+        quit(1)
 
-async def list_guilds(id, discord):
-    await basic.click_data_list_item_by_id("guildsnav", id, discord)
     print(f"[nav] Navigated to guild \"{id}\", waiting {GUILD_ANIMATION_TIME}sec for animation... ")
     await asyncio.sleep(GUILD_ANIMATION_TIME)
 

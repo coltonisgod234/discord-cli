@@ -1,4 +1,4 @@
-import basic
+from . import basic
 
 async def join_vc_private(discord):
     await basic.click_button_js("[aria-label='Start Voice Call']", discord)
