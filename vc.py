@@ -1,5 +1,8 @@
 import basic
 
+async def join_vc_private(discord):
+    await basic.click_button_js("[aria-label='Start Voice Call']", discord)
+
 async def leave_vc(discord):
     await basic.click_button_js(".button__67645[aria-label*='Disconnect']", discord)
 

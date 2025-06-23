@@ -7,7 +7,7 @@ import argparse
 
 parser = argparse.ArgumentParser("dterm")
 parser.add_argument("command")
-parser.add_argument("--text")
+parser.add_argument("-text")
 parser.add_argument("--private", "-pr", action="store_true")
 
 # By name
@@ -21,7 +21,7 @@ parser.add_argument("-gi")
 parser.add_argument("-ui")
 
 # Stuff
-parser.add_argument("--json", action="store_true")
+parser.add_argument("--json", "-js", action="store_true")
 parsed_args = parser.parse_args()
 
 async def command_text(args, discord):
@@ -41,6 +41,12 @@ async def command_channels(args, discord):
 
 async def command_leavevc(args, discord):
     await vc.leave_vc(discord)
+
+async def command_vc(args, discord):
+    if args.private:
+        await vc.join_vc_private(discord)
+    else:
+        print("Command not supported")
 
 async def switch_guild(args, discord):
     if args.gn:
